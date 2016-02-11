@@ -48,7 +48,33 @@ public class Strings {
       }
       return outputString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
    }
+   
+   /**
+   * test an array of strings to see if it contains any member that matches 
+   * the test expression.  '.' is an wildcard
+   **/
+   public static func arrayContainsMatch(inputArray:Array<String>, _ match:String)->Bool{
+      print(inputArray)
+      for str:String in inputArray {
+         if(str.characters.count != match.characters.count) { break }
+         var matchCount = 0
+         for var i = str.startIndex; i < str.endIndex; i = i.advancedBy(1) {
+            if(str.characters[i] == match.characters[i] || match.characters[i] == ".") {
+               matchCount++
+            }
+         }
+         if(matchCount == match.characters.count) {
+            return true
+         }
+      }
+      return false
+   }
 }
+
+
+/**
+* tests
+**/
 
 var words = "let there be sunshine in February"
 Strings.reverseWordsInString(words) == "February in sunshine be there let" //expect true
@@ -63,6 +89,13 @@ flowed2 == "fun times with swift\nit is like time\nstands still" //expect true
 var text2 = "fun times\nwith swift it is like time stands still"
 var flowed3 = Strings.insertLineBreaksInString(text2, maxLineLength:15)
 flowed3 == "fun times\nwith swift it is\nlike time stands\nstill" //expect true
+
+var array1 = ["foo", "bar", "zoo", "noo", "char"]
+Strings.arrayContainsMatch(array1, "foo") //expect true
+Strings.arrayContainsMatch(array1, "fo.") //expect true
+Strings.arrayContainsMatch(array1, "..r") //expect true
+Strings.arrayContainsMatch(array1, "..rg") //expect false
+Strings.arrayContainsMatch(array1, "food") //expect false
 
 
 //: [Next](@next)
