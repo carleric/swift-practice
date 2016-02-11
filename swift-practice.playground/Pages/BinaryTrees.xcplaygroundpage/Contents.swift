@@ -1,5 +1,20 @@
 import Foundation
 
+public class BinaryNode {
+   
+   var data:Int
+   var leftChild:BinaryNode?
+   var rightChild:BinaryNode?
+   
+   init(data:Int){
+      self.data = data
+   }
+   
+   func visit(){
+      NSLog("data: \(self.data) ")
+   }
+}
+
 public class BinaryTree {
    var head:BinaryNode?
    public var size = 0
@@ -52,3 +67,38 @@ public class BinaryTree {
    
    
 }
+
+public class BinarySearchTree: BinaryTree {
+   //   public init() {
+   //      //super.init()
+   //   }
+   
+   public func insert(value:Int){
+      self.head = insert(value, current:self.head)
+      size++
+   }
+   
+   func insert(newValue:Int, var current:BinaryNode?)->BinaryNode{
+      if(current == nil) {
+         current = BinaryNode(data:newValue)
+      } else if(newValue < current!.data) {
+         current!.leftChild = insert(newValue, current:current!.leftChild);
+      } else {
+         current!.rightChild = insert(newValue, current:current!.rightChild);
+      }
+      return current!
+   }
+   
+}
+
+
+var bst = BinarySearchTree()
+bst.insert(5)
+bst.insert(3)
+bst.insert(8)
+bst.insert(2)
+bst.size == 4
+
+bst.preOrderVisit() == [5, 3, 2, 8]    //expect true
+bst.inOrderVisit() == [2, 3, 5, 8]     //expect true
+bst.postOrderVisit() == [2, 3, 8, 5]   //expect true
