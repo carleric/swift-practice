@@ -3,5 +3,6 @@
     <pages>
         <page name='BinaryTrees'/>
         <page name='Strings'/>
+        <page name='Numbers'/>
     </pages>
 </playground>
