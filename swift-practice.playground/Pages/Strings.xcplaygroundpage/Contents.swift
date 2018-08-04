@@ -7,60 +7,63 @@ public class Strings {
    /**
     * reverse the order of words in a string
     **/
-   public static func reverseWordsInString(inputString:String)->String{
-      var words = inputString.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+   public static func reverseWordsInString(_ inputString:String)->String{
+      var words = inputString.components(separatedBy: .whitespaces)
       let numWords = words.count
       
-      for var i = 0; i < numWords/2; i++ {
+      for i in 0 ..< numWords/2 {
          let temp = words[i]
          words[i] = words[numWords-1-i]
          words[numWords-1-i] = temp
       }
-      return words.joinWithSeparator(" ")
+      return words.joined(separator: " ")
    }
    
    /**
     * insert newlines in a string in between word breaks honoring a maximum line length.
     * preserve any existing line breaks (paragraphs)
     **/
-   public static func insertLineBreaksInString(inputString:String, maxLineLength:Int)->String{
+   public static func insertLineBreaksInString(_ inputString:String, maxLineLength:Int)->String{
       var outputString:String = ""
       
       //first break input into existing paragraphs
-      let paragraphs = inputString.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+      let paragraphs = inputString.components(separatedBy: .newlines)
       for paragraph in paragraphs {
          var currentLineLength = 0
-         let words = paragraph.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+         let words = paragraph.components(separatedBy: .whitespaces)
          for word:String in words {
-            if(word.characters.count + currentLineLength > maxLineLength){
-               outputString.appendContentsOf("\n")
-               outputString.appendContentsOf(word)
-               currentLineLength = word.characters.count
+            if(word.count + currentLineLength > maxLineLength){
+               outputString.append("\n")
+               outputString.append(word)
+               currentLineLength = word.count
             } else if(currentLineLength == 0){
-               outputString.appendContentsOf(word)
-               currentLineLength += word.characters.count
+               outputString.append(word)
+               currentLineLength += word.count
             } else {
-               outputString.appendContentsOf(" \(word)")
-               currentLineLength += word.characters.count + 1
+               outputString.append(" \(word)")
+               currentLineLength += word.count + 1
             }
          }
-         outputString.appendContentsOf("\n")
+         outputString.append("\n")
       }
-      return outputString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+      return outputString.trimmingCharacters(in: .whitespacesAndNewlines)
    }
    
    /**
    * test an array of strings to see if it contains any member that matches 
    * the test expression.  '.' is an wildcard
    **/
-   public static func arrayContainsMatch(inputArray:Array<String>, _ match:String)->Bool{
+   public static func arrayContainsMatch(_ inputArray:Array<String>, _ match:String)->Bool{
       print(inputArray)
       for str:String in inputArray {
-         if(str.characters.count != match.characters.count) { break }
+         if(str.count != match.count) { break }
          var matchCount = 0
-         for var i = str.startIndex; i < str.endIndex; i = i.advancedBy(1) {
-            if(str.characters[i] == match.characters[i] || match.characters[i] == ".") {
-               matchCount++
+         //for var i = str.startIndex; i < str.endIndex; i = i.advancedBy(1) {
+         for i in 0 ..< str.count {
+            let iStr = str.index(str.startIndex, offsetBy: i)
+            let iMatch = match.index(match.startIndex, offsetBy: i)
+            if(str[iStr] == match[iMatch] || match[iMatch] == ".") {
+               matchCount += 1
             }
          }
          if(matchCount == match.characters.count) {

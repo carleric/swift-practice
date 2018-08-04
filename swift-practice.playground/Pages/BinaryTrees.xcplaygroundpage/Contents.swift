@@ -28,7 +28,7 @@ public class BinaryTree {
       return preOrdered
    }
    
-   func preOrderVisit(n:BinaryNode?, inout _ preOrdered:Array<Int>){
+   func preOrderVisit(_ n:BinaryNode?,_ preOrdered: inout Array<Int>){
       if(n == nil) { return }
       preOrdered.append(n!.data)
       preOrderVisit(n!.leftChild, &preOrdered)
@@ -43,7 +43,7 @@ public class BinaryTree {
       return ordered
    }
    
-   func inOrderVisit(n:BinaryNode?, inout _ ordered:Array<Int>){
+   func inOrderVisit(_ n:BinaryNode?, _ ordered: inout Array<Int>){
       if(n == nil) { return }
       inOrderVisit(n!.leftChild, &ordered)
       ordered.append(n!.data)
@@ -58,14 +58,12 @@ public class BinaryTree {
       return ordered
    }
    
-   func postOrderVisit(n:BinaryNode?, inout _ ordered:Array<Int>){
+   func postOrderVisit(_ n:BinaryNode?, _ ordered: inout Array<Int>){
       if(n == nil) { return }
       postOrderVisit(n!.leftChild, &ordered)
       postOrderVisit(n!.rightChild, &ordered)
       ordered.append(n!.data)
    }
-   
-   
 }
 
 public class BinarySearchTree: BinaryTree {
@@ -73,18 +71,18 @@ public class BinarySearchTree: BinaryTree {
    //      //super.init()
    //   }
    
-   public func insert(value:Int){
-      self.head = insert(value, current:self.head)
-      size++
+   public func insert(_ value:Int){
+      self.head = insert(value, current: &self.head)
+      size += 1
    }
    
-   func insert(newValue:Int, var current:BinaryNode?)->BinaryNode{
+   func insert(_ newValue:Int, current: inout BinaryNode?)->BinaryNode{
       if(current == nil) {
          current = BinaryNode(data:newValue)
       } else if(newValue < current!.data) {
-         current!.leftChild = insert(newValue, current:current!.leftChild);
+         current!.leftChild = insert(newValue, current:&current!.leftChild);
       } else {
-         current!.rightChild = insert(newValue, current:current!.rightChild);
+         current!.rightChild = insert(newValue, current:&current!.rightChild);
       }
       return current!
    }
